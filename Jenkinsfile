@@ -21,7 +21,8 @@ pipeline {
 				'''
 			}
 		    }
-            }		    
+            }
+	}
 	stage('Check git history'){
 		steps{
 			echo 'running talisman to check project history for secrets'
