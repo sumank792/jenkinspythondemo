@@ -11,8 +11,10 @@ pipeline {
             steps {
 		    script{
 			echo 'Checking talisman installed for jenkins user'
-			def folder = new File('/var/jenkins_home/.talisman/bin/')
-			if(!folder.exists()){
+			def exists = fileExists '/var/jenkins_home/.talisman/bin/talisman_linux_amd64'
+			if(exists){
+				echo 'talisman is already setup'
+			}else{
 				sh'''
 				mkdir -p ~/.talisman/bin
 				PATH="$HOME/.talisman/bin/:${PATH}"
