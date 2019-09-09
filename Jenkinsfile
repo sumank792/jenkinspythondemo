@@ -7,30 +7,6 @@ pipeline {
 			git 'https://github.com/pawnu/jenkinspythondemo.git'
 		}
 	}
-	stage('Setup talisman if not present'){
-            steps {
-		    script{
-			echo 'Checking talisman installed for jenkins user'
-			def exists = fileExists '/var/jenkins_home/.talisman/bin/talisman_linux_amd64'
-			if(exists){
-				echo 'talisman is already setup'
-			}else{
-				sh'''
-				mkdir -p ~/.talisman/bin
-				PATH="$HOME/.talisman/bin/:${PATH}"
-				TALISMAN_HOME="$HOME/.talisman/bin"
-				curl --silent  https://raw.githubusercontent.com/thoughtworks/talisman/master/global_install_scripts/install.bash > /tmp/install_talisman.bash && /bin/bash /tmp/install_talisman.bash			       
-				'''
-			}
-		    }
-            }
-	}
-	stage('Check git history'){
-		steps{
-			echo 'running talisman to check project history for secrets'
-			sh '~/.talisman/bin/talisman_linux_amd64 --scan'
-		}
-	}
 	stage('Check dependency'){
 		steps{
 			echo 'running python safety check on requirements.txt file'
